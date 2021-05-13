@@ -16,15 +16,15 @@ from config import BOT_NAME as bn, PLAY_PIC
 @Client.on_message(command("start") & other_filters2)
 async def start(_, message: Message):
     hell_pic = PLAY_PIC
-    hell = f"I am **{bn}** !!\nI let you play music in your group's voice chat 😉\nTo get all commands and their explanation do /help\n\nEnjoy Streaming Music 😉"
+    hell = f"Ben **{bn}** !!\nGrubunuzun sesli sohbetinde müzik çalmanıza yardımcı oluyorum 😉\nTüm komutları ve açıklamalarını almak için  /help\n\nİyi dinlemeler 😉"
     butts = InlineKeyboardMarkup(
         [
             [
                 InlineKeyboardButton(
-                    "Group 💬", url="https://t.me/Its_Fuckin_Hell"
+                    "Destek Grubu 💬", url="https://t.me/zevzekcalardestekgrup"
                 ),
                 InlineKeyboardButton(
-                    "Channel 📣", url="https://t.me/The_HellBot"
+                    "Destek & Guncelleme Kanalı 📣", url="https://t.me/zevzekcalardestek"
                 )
             ]
         ]
@@ -39,8 +39,8 @@ async def start(_, message: Message):
 @Client.on_message(command("repo") & other_filters2)
 async def repo(_, message: Message):
     await message.reply_text(
-        f"""🤠 Hoi!!
-I'm **{bn}** and below is the my source code 🙃
+        f"""🤠 Mehaba!
+Benim **{bn}** sahibime ulaşmak için hoşgeldin 🙃
 
 Happy Streaming 😉
 """,
@@ -48,13 +48,13 @@ Happy Streaming 😉
             [
                 [
                     InlineKeyboardButton(
-                        "Repo 📑", url="https://github.com/TheVaders/vc_bot"
+                        "Sahibim 🤵🏻", url="https://t.me/abbassbey"
                     ),
                     InlineKeyboardButton(
-                        "Channel 📣", url="https://t.me/The_HellBot"
+                        "Biografi kanalı 📣", url="https://t.me/biolinki"
                     ),
                     InlineKeyboardButton (
-                        "Tutorial 🎬", url="https://youtu.be/XaH7VHURBVg"
+                        "Sohbet Grubu 🕺🏻", url="https://t.me/zevzekler"
                     )
                 ]
             ]
@@ -67,7 +67,7 @@ async def ping(_, message: Message):
     hell_pic = PLAY_PIC
     await message.reply_photo(
     photo=hell_pic,
-    caption="I'm Alive and working fine. Do /help to get commands.\n\nHappy Streaming Music 😉",
+    caption="Burdayım ve çalışıyorum /help komutunu kullanarak yardım alabilirsin .\n\nMutlu müzik botu😉",
 )
 
 
@@ -79,7 +79,7 @@ async def a(client, message: Message):
         query += ' ' + str(i)
     okvai = query.capitalize()
     print(query.capitalize())
-    m = await message.reply(f"**{bn} :-** 🔍 Searching for {okvai}")
+    m = await message.reply(f"**{bn} :-** 🔍 Müziği arıyorum. {okvai}")
     ydl_opts = {"format": "bestaudio[ext=m4a]"}
     try:
         results = []
@@ -93,36 +93,36 @@ async def a(client, message: Message):
         try:
             link = f"https://youtube.com{results[0]['url_suffix']}"
             # print(results)
-            title = results[0]["title"]
-            thumbnail = results[0]["thumbnails"][0]
-            duration = results[0]["duration"]
+            title = results[0]["Başlık"]
+            thumbnail = results[0]["küçük fotografı"][0]
+            duration = results[0]["süresi"]
 
             ## UNCOMMENT THIS IF YOU WANT A LIMIT ON DURATION. CHANGE 1800 TO YOUR OWN PREFFERED DURATION AND EDIT THE MESSAGE (30 minutes cap) LIMIT IN SECONDS
             # if time_to_seconds(duration) >= 1800:  # duration limit
             #     m.edit("Exceeded 30mins cap")
             #     return
 
-            views = results[0]["views"]
+            views = results[0]["görüntüleme"]
             thumb_name = f'thumb{message.message_id}.jpg'
             thumb = requests.get(thumbnail, allow_redirects=True)
             open(thumb_name, 'wb').write(thumb.content)
 
         except Exception as e:
-            m.edit(f"**{bn} :-** 😕 Found nothing. Try changing the spelling a little.\n\n{e}")
+            m.edit(f"**{bn} :-** 😕 Bir şey bulamadım acaba yazım hatası mı yaptın tekrar dener misin?\n\n{e}")
             return
     except Exception as e:
         m.edit(
-           f"**{bn} :-** 😕 Found Nothing. Sorry.\n\nTry another keywork or maybe spell it properly."
+           f"**{bn} :-** 😕 Bulamadım. Üzgünüm.\n\nYazım hatası mı yaptın acaba?"
         )
         print(str(e))
         return
-    await m.edit(f"**{bn} :-** 📥 Downloading...\n**Query :-** {okvai}")
+    await m.edit(f"**{bn} :-** 📥 İndiriyorum...\n**aramıştınız :-** {okvai}")
     try:
         with youtube_dl.YoutubeDL(ydl_opts) as ydl:
             info_dict = ydl.extract_info(link, download=False)
             audio_file = ydl.prepare_filename(info_dict)
             ydl.process_info(info_dict)
-        rep = f'🎶 **Title:** [{title[:35]}]({link})\n⏳ **Duration:** {duration}\n'
+        rep = f'🎶 **Başlık:** [{title[:35]}]({link})\n⏳ **Süresi:** {duration}\n'
         secmul, dur, dur_arr = 1, 0, duration.split(':')
         for i in range(len(dur_arr)-1, -1, -1):
             dur += (int(dur_arr[i]) * secmul)
@@ -130,7 +130,7 @@ async def a(client, message: Message):
         await  message.reply_audio(audio_file, caption=rep, parse_mode='md',quote=False, title=title, duration=dur, thumb=thumb_name)
         await m.delete()
     except Exception as e:
-        m.edit(f"❌ Error!! \n\n{e}")
+        m.edit(f"❌ HATA!! \n\n{e}")
     try:
         os.remove(audio_file)
         os.remove(thumb_name)
