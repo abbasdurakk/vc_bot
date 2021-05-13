@@ -24,7 +24,7 @@ from pyrogram import Client
 @errors
 async def play(_, message: Message):
 
-    lel = await message.reply(f"**{bn} :-** 🔄 Processing...")
+    lel = await message.reply(f"**{bn} :-** 🔄 Müziği arıyorum izninizle...")
     sender_id = message.from_user.id
     sender_name = message.from_user.first_name
     hell_pic = PLAY_PIC
@@ -33,8 +33,8 @@ async def play(_, message: Message):
             [
                 [
                     InlineKeyboardButton(
-                        text="🔊 Channel",
-                        url="https://t.me/The_HellBot")
+                        text="🤖 Bot",
+                        url="https://t.me/zevzekcalarbot")
                    
                 ]
             ]
@@ -46,7 +46,7 @@ async def play(_, message: Message):
     if audio:
         if round(audio.duration / 60) > DURATION_LIMIT:
             raise DurationLimitError(
-                f"**{bn} :-** ❌ Videos longer than {DURATION_LIMIT} minute(s) aren't allowed to play!"
+                f"**{bn} :-** 😥 {DURATION_LIMIT} süreli video oynatamıyoruz"
             )
 
         file_name = get_file_name(audio)
@@ -57,17 +57,17 @@ async def play(_, message: Message):
     elif url:
         file_path = await converter.convert(youtube.download(url))
     else:
-        return await lel.edit_text(f"**{bn} :-**❗ You did not give me anything to play!")
+        return await lel.edit_text(f"**{bn} :-**😟 Ama bana oynatacak bir şey vermedin ki?")
 
     if message.chat.id in callsmusic.pytgcalls.active_calls:
         position = await queues.put(message.chat.id, file=file_path)
-        await lel.edit(f"**{bn} :-** #️⃣ Queued at position #{position} !")
+        await lel.edit(f"**{bn} :-** #️⃣ Sıraya aldım iyi dinlemeler #{position} !")
     else:
         callsmusic.pytgcalls.join_group_call(message.chat.id, file_path)
         await message.reply_photo(
         photo=hell_pic,
         reply_markup=keyboard,
-        caption="▶️ Playing song... \n**Requested By :-** {}!".format(
+        caption="▶️ Müziği çalıyorum... \n**Ne güzel müzik zevkin varmış :-** {}!".format(
         message.from_user.mention()
         ),
     )
@@ -78,7 +78,7 @@ async def play(_, message: Message):
 @errors
 async def play(_, message: Message):
 
-    lel = await message.reply(f"**{bn} :-** 🔎 Finding song...")
+    lel = await message.reply(f"**{bn} :-** 🔎 YouTube'den arama yapıyorum...")
     sender_id = message.from_user.id
     user_id = message.from_user.id
     sender_name = message.from_user.first_name
@@ -89,26 +89,26 @@ async def play(_, message: Message):
     for i in message.command[1:]:
         query += ' ' + str(i)
     print(query)
-    await lel.edit(f"**{bn} :-** 🎵 Processing {query}")
+    await lel.edit(f"**{bn} :-** 🎵 Oynatmaya çalışıyorum. {query}")
     ydl_opts = {"format": "bestaudio[ext=m4a]"}
     try:
         results = YoutubeSearch(query, max_results=1).to_dict()
         url = f"https://youtube.com{results[0]['url_suffix']}"
         #print(results)
-        title = results[0]["title"][:40]       
-        thumbnail = results[0]["thumbnails"][0]
+        title = results[0]["Başlık"][:40]       
+        thumbnail = results[0]["küçük fotograf"][0]
         thumb_name = f'thumb{title}.jpg'
         thumb = requests.get(thumbnail, allow_redirects=True)
         open(thumb_name, 'wb').write(thumb.content)
 
 
-        duration = results[0]["duration"]
+        duration = results[0]["süresi"]
         url_suffix = results[0]["url_suffix"]
-        views = results[0]["views"]
+        views = results[0]["görüntüleme"]
 
     except Exception as e:
         lel.edit(
-            f"**{bn} :-** ❌ Song not found.\nTry another song or maybe try to spell it properly."
+            f"**{bn} :-** ❌ Müziği bulamadım. \nMüziğin adını yanlış yazmış olabilirsin tekrar dener misin?"
         )
         print(str(e))
         return
@@ -117,7 +117,7 @@ async def play(_, message: Message):
             [
                 [
                     InlineKeyboardButton(
-                        text="Watch On YouTube 🎬",
+                        text="YouTube'da İzle 🎬",
                         url=f"{url}")
                    
                 ]
@@ -128,7 +128,7 @@ async def play(_, message: Message):
             [
                 [
                     InlineKeyboardButton(
-                        text="Watch On YouTube 🎬",
+                        text="YouTube'da İzle 🎬",
                         url=f"{url}")
                    
                 ]
@@ -143,13 +143,13 @@ async def play(_, message: Message):
     elif url:
         file_path = await converter.convert(youtube.download(url))
     else:
-        return await lel.edit_text(f"**{bn} :-** ❗ You did not give me anything to play!")
+        return await lel.edit_text(f"**{bn} :-** 😑 Oynatacak bir şey vermedinde verir misin?")
 
     if message.chat.id in callsmusic.pytgcalls.active_calls:
         position = await queues.put(message.chat.id, file=file_path)
         await message.reply_photo(
         photo=thumb_name, 
-        caption=f"**{bn} :-** Your requested song is **queued** at position #{position} !",
+        caption=f"**{bn} :-** İstediğiniz müzik **queued** şekilde #{position} !",
         reply_markup=keyboard2)
         return await lel.delete()
     else:
@@ -157,7 +157,7 @@ async def play(_, message: Message):
         await message.reply_photo(
         photo=thumb_name,
         reply_markup=keyboard,
-        caption="▶️ **Playing** here the song requested by {}".format(
+        caption="▶️ **Oynatıyorum** müzik zevkini beğendim dostum. {}".format(
         message.from_user.mention()
         ),
     )
