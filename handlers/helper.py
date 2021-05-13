@@ -9,22 +9,22 @@ from helpers.filters import command, other_filters2, other_filters
 @Client.on_message(command("help") & other_filters2)
 async def helper(ok, message: Message):
     await message.reply_text(
-        f"""💞 Hello! Following are the commands available for **{bn}** - __A Group Voice Chat Music Player__.
-The commands I currently support are:
+        f"""💅 Merhaba! Beni şu komutlar ile yönetebilirsin **{bn}** -
+Hali hazırda desteklediğim komutlar:
 
-🔥 **Users Commands :**
-⚜️ /play - **[ Groups Only ]** > __Plays the replied audio file or YouTube video through link.__
-⚜️ /song - **[ Groups & DM ]** > __Uploads the searched song in the chat.__
-⚜️ /ytplay - **[ Groups Only ]** > __Plays the song directly from YouTube Search.__
-⚜️ /repo - **[ DM Only ]** > __Gets the source code and YouTube Tutorial Video.__
+👶🏻 **Kullanıcı komutu **
+⚜️ /play   - > __Müziği başlatır.__
+⚜️ /song   - > __Müzik araması yapar.__
+⚜️ /ytplay - > __YouTube linki oynatır.__
+⚜️ /repo   - > __Yapımcımın kanallarına ve kendisine ulaşabilirsin__
 
 
-🔰 **Admin & Sudo Users Commands :**
-⚜️ /pause - **[Groups Only ]** > __Pause Voice Chat Music.__
-⚜️ /resume - **[Groups Only ]** > __Resume Voice Chat Music.__
-⚜️ /skip - **[Groups Only ]** > __Skips the current Music Playing In Voice Chat.__
-⚜️ /stop - **[Groups Only ]** > __Clears The Queue as well as ends Voice Chat Music.__""")
+🧑🏻 **Admin komutları:**
+⚜️ /pause  - > __Müziği durdurur__
+⚜️ /resume - > __Oyantma listesini devam ettirir__
+⚜️ /skip   - > __Bir sonraki müzige geçeer__
+⚜️ /stop   - > __Müzik listesini temizyip sesli sohbetten ayrılır.__""")
 
 @Client.on_message(command("help") & other_filters)
 async def ghelp(_, message: Message):
-    await message.reply_text(f"**{bn} :-** Hey! PM me to get all the commands 😉")
+    await message.reply_text(f"**{bn} :-** Komutlarımı öğrenmek istiyorsan pm gelir misin? 😉")
